@@ -1,20 +1,22 @@
+import { FETCH_POSTS_FULFILLED, FETCH_POSTS_FAILED } from '../actions/postActions';
+
 const defaultState = {
-  fetching: false,
+  fetching: true,
   posts: [],
 };
 
 const posts = (state = defaultState, action) => {
   switch (action.type) {
-    case 'FETCH_POST_FULFILLED':
+    case FETCH_POSTS_FULFILLED:
       return {
         ...state,
         fetching: false,
         posts: action.payload,
       };
-    case 'FETCH_POST_FAILED':
+    case FETCH_POSTS_FAILED:
       return {
         ...state,
-        fetching: false,
+        fetching: true,
         error: action.payload,
       };
     default:

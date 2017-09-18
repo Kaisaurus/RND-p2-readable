@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Card } from 'semantic-ui-react';
 import CategoriesBtns from './CategoriesBtns';
+import { Link } from 'react-router-dom';
 
 const Post = ({ author, body, category, timestamp, title, voteScore, admin, id }) => {
   const date = new Date(timestamp).toISOString();
@@ -11,7 +12,9 @@ const Post = ({ author, body, category, timestamp, title, voteScore, admin, id }
     <Card fluid className="post">
       <Card.Content>
         <Card.Header>
-          { title }
+          <Link to={`/post/${id}`}>
+            { title }
+          </Link>
           <Button.Group floated="right">
             {
               admin

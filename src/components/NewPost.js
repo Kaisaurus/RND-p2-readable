@@ -35,6 +35,8 @@ class NewPost extends Component {
       body,
       author: 'You',
       category,
+      owner: 'you',
+      deleted: false,
     };
     this.props.newPost(post);
   }
@@ -71,7 +73,10 @@ class NewPost extends Component {
             placeholder="Tell us something interesting..."
           />
           <Form.Group>
-            <Form.Button>Submit</Form.Button>
+            <Button
+              type="submit"
+              content="Submit"
+            />
             <Button
               onClick={this.togglePreview.bind(this)}
               content="Toggle Preview"

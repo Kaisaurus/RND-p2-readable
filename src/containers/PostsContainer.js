@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchPosts } from '../actions/postActions';
 import PostsList from '../components/PostsList';
+import { Dimmer, Loader } from 'semantic-ui-react';
 
 class PostsContainer extends Component {
   static propTypes = {
     posts: PropTypes.array,
     fetching: PropTypes.bool,
     fetchPosts: PropTypes.func.isRequired,
-    dimmerActive: PropTypes.bool,
   }
 
   componentWillMount() {
@@ -17,9 +17,16 @@ class PostsContainer extends Component {
   }
 
   render() {
-    const { posts } = this.props;
+    const { posts, fetching } = this.props;
     return (
-      <PostsList posts={posts} />
+        <Dimmer.Dimmable>
+          <Dimmer active={ fetching }>
+            <Loader>
+              Loading Posts...
+            </Loader>
+          </Dimmer>
+          <PostsList posts={ posts } />
+        </Dimmer.Dimmable>
     );
   }
 }

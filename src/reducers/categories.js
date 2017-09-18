@@ -1,3 +1,5 @@
+import { FETCH_CATEGORIES_FULFILLED, FETCH_CATEGORIES_FAILED } from '../actions/categoryActions';
+
 const defaultState = {
   fetching: false,
   categories: [],
@@ -5,13 +7,13 @@ const defaultState = {
 
 const categories = (state = defaultState, action) => {
   switch (action.type) {
-    case 'FETCH_CATEGORIES_FULFILLED':
+    case FETCH_CATEGORIES_FULFILLED:
       return {
         ...state,
         fetching: false,
         categories: action.payload.categories,
       };
-    case 'FETCH_CATEGORIES_FAILED':
+    case FETCH_CATEGORIES_FAILED:
       return {
         ...state,
         fetching: false,

@@ -4,6 +4,7 @@ import './App.css';
 import { Route } from 'react-router';
 import Navigation from './components/Navigation';
 import PostsContainer from './containers/PostsContainer';
+import PostContainer from './containers/PostContainer';
 import NewPost from './components/NewPost';
 import { Container } from 'semantic-ui-react';
 
@@ -20,7 +21,12 @@ class App extends Component {
         <Navigation />
         <Container text textAlign="left">
           <Route exact path="/" component={ PostsContainer } />
-          <Route exact path="/new" component={ NewPost } />
+          <Route path={"/post/:id"} render={
+              (props) => (
+                <PostContainer {...props} {...this.props} />
+              )
+            } />
+          <Route path="/new" component={ NewPost } />
         </Container>
       </div>
     );

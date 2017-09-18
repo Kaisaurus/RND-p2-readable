@@ -4,9 +4,7 @@ import { createLogger } from 'redux-logger';
 // is imported it throws the type error: middleware is not a function
 import thunk from 'redux-thunk';
 import promise from 'redux-promise-middleware';
-
 import reducers from './reducers';
-
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
