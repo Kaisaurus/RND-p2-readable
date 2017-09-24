@@ -1,4 +1,7 @@
-import { FETCH_POSTS_FULFILLED, FETCH_POSTS_FAILED } from '../actions/postActions';
+import {
+  FETCH_POSTS_FULFILLED,
+  FETCH_POSTS_FAILED
+} from '../actions/postActions';
 
 const defaultState = {
   fetching: true,

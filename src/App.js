@@ -5,9 +5,9 @@ import { Route } from 'react-router';
 import Navigation from './components/Navigation';
 import PostsContainer from './containers/PostsContainer';
 import PostContainer from './containers/PostContainer';
-import NewPost from './components/NewPost';
+import PostForm from './components/PostForm';
 import { Container } from 'semantic-ui-react';
-
+import AlertContainer from './containers/AlertContainer';
 
 class App extends Component {
   componentDidMount() {
@@ -21,13 +21,19 @@ class App extends Component {
         <Navigation />
         <Container text textAlign="left">
           <Route exact path="/" component={ PostsContainer } />
-          <Route path={"/post/:id"} render={
+          <Route exact path={"/post/:id"} render={
               (props) => (
-                <PostContainer {...props} {...this.props} />
+                <PostContainer {...props} />
               )
             } />
-          <Route path="/new" component={ NewPost } />
+            <Route path={"/post/:id/edit"} render={
+              (props) => (
+                <PostContainer {...props} edit />
+              )
+            } />
+          <Route path="/new" component={ PostForm } />
         </Container>
+        <AlertContainer />
       </div>
     );
   }

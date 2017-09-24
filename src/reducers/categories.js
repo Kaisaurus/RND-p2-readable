@@ -1,4 +1,7 @@
-import { FETCH_CATEGORIES_FULFILLED, FETCH_CATEGORIES_FAILED } from '../actions/categoryActions';
+import { 
+  FETCH_CATEGORIES_FULFILLED, 
+  FETCH_CATEGORIES_FAILED 
+} from '../actions/categoryActions';
 
 const defaultState = {
   fetching: false,
