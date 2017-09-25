@@ -4,7 +4,7 @@ import { Button, Card } from 'semantic-ui-react';
 import CategoriesBtns from './CategoriesBtns';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { vote } from '../actions/postActions';
+import { vote, deletePost } from '../actions/postActions';
 import { Redirect } from 'react-router';
 import CommentsContainer from '../containers/CommentsContainer';
 import { formatTimeStamp } from '../utils/formatTimeStamp';
@@ -20,8 +20,9 @@ class Post extends Component {
     title: PropTypes.string,
     voteScore: PropTypes.number,
     admin: PropTypes.bool,
+    comments: PropTypes.bool,
     vote: PropTypes.func,
-    comments: PropTypes.bool
+    deletePost: PropTypes.func,
   };
 
   onVoteUp(e, r) {
@@ -34,12 +35,16 @@ class Post extends Component {
     this.props.vote(this.props.id, 'downVote');
   }
 
+  onDeletePost() {
+    this.props.deletePost(this.props.id);
+  }
+
   render() {
-    const { comments, error, author, body, category, timestamp, title, voteScore, admin, id } = this.props;
-    if(error){
+    const { deleted, comments, error, author, body, category, timestamp, title, voteScore, admin, id } = this.props;
+    if(error || deleted){
       return <Redirect to='/' />;
     }
-    const formattedTimeStamp = formatTimeStamp(timestamp);
+    const formattedTimeStamp = timestamp ? formatTimeStamp(timestamp) : '';
     const commentsTag = comments
       ? <Card.Content>
           <CommentsContainer postId={ id }  />
@@ -61,7 +66,7 @@ class Post extends Component {
                       <Button content="Edit" />
                     </Link>
 
-                    <Button content="Delete" />
+                    <Button onClick={ this.onDeletePost.bind(this) } content="Delete" />
                   </Button.Group>
                 )
                 : null
@@ -107,5 +112,5 @@ const mapStateToProps = ({ posts }) => ({
 
 export default connect(
   mapStateToProps,
-  { vote }
+  { vote, deletePost }
 )(Post);

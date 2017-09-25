@@ -10,6 +10,8 @@ import {
   NEW_POST_FAILED,
   FETCH_POSTS_FULFILLED,
   FETCH_POSTS_FAILED,
+  DELETE_POST_FULFILLED,
+  DELETE_POST_FAILED,
 } from '../actions/postActions';
 
 const defaultState = {
@@ -61,9 +63,8 @@ const posts = (state = defaultState, action) => {
       };
     case VOTE_POST_FULFILLED:
       const { voteScore } = action.payload.data;
-      const { id } = action.payload;
-      const newPosts = state.posts.map(p => {
-        if(p.id === id) {
+      const postsAfterVote = state.posts.map(p => {
+        if(p.id === action.payload.id) {
           return {...p, voteScore};
         }
         return p;
@@ -71,7 +72,7 @@ const posts = (state = defaultState, action) => {
       return {
         ...state,
         post: { ...state.post, voteScore },
-        posts: newPosts,
+        posts: postsAfterVote,
       };
     case VOTE_POST_FAILED:
       return {
@@ -85,6 +86,23 @@ const posts = (state = defaultState, action) => {
         posts: action.payload,
       };
     case FETCH_POSTS_FAILED:
+      return {
+        ...state,
+        error: action.payload,
+      };
+    case DELETE_POST_FULFILLED:
+      const postsAfterDelete = state.posts.map(p => {
+        if(p.id === action.payload) {
+          return {...p, deleted: true};
+        }
+        return p;
+      });
+      return {
+        ...state,
+        post: { ...state.post, deleted: true },
+        posts: postsAfterDelete,
+      };
+    case DELETE_POST_FAILED:
       return {
         ...state,
         error: action.payload,

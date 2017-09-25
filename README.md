@@ -1,11 +1,12 @@
 # Udacity React Nanodegree - React/Redux assignment
 
 ### Functionalities
-This project demonstrates the use of React/Redux as the front-end of a messaging board system. 
+This project demonstrates the use of React/Redux as the front-end of a messaging board system.
 
-It currently allows any user to create/read/update posts.
+It currently allows any user to create/read/update/delete and vote on posts.
 
 It uses a [premade API back-end provided by Udacity](https://github.com/udacity/reactnd-project-readable-starter)
+
 ---
 
 ### Requirements for local deployment
@@ -15,7 +16,7 @@ It uses a [premade API back-end provided by Udacity](https://github.com/udacity/
 
 ---
 
-### Quickstart (for local app) 
+### Quickstart (for local app)
 
 * Get the back-end started (uses port 5001)
 ```

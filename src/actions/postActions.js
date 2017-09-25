@@ -13,6 +13,8 @@ export const VOTE_POST_FULFILLED = 'VOTE_POST_FULFILLED';
 export const VOTE_POST_FAILED = 'VOTE_POST_FAILED';
 export const EDIT_POST_FULFILLED = 'EDIT_POST_FULFILLED';
 export const EDIT_POST_FAILED = 'EDIT_POST_FAILED';
+export const DELETE_POST_FULFILLED = 'DELETE_POST_FULFILLED';
+export const DELETE_POST_FAILED = 'DELETE_POST_FAILED';
 
 export function newPost(post) {
   return dispatch => {
@@ -107,6 +109,18 @@ export function vote(id, vote) {
       })
       .catch(err => {
         dispatch({ type: VOTE_POST_FAILED, payload: err });
+      });
+  };
+}
+
+export function deletePost(id) {
+  return dispatch => {
+    axios.delete(`${api}/posts/${id}`, { headers })
+      .then(resp => {
+        dispatch({ type: DELETE_POST_FULFILLED, payload: id });
+      })
+      .catch(err => {
+        dispatch({ type: DELETE_POST_FAILED, payload: err });
       });
   };
 }

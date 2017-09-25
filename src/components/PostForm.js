@@ -19,7 +19,7 @@ class NewPost extends Component {
     showPreview: true,
     title: this.props.title || '',
     body: this.props.body || '',
-    category: this.props.category || '',
+    category: this.props.body || '',
   };
 
   togglePreview = (e) => {
@@ -64,28 +64,29 @@ class NewPost extends Component {
               required
               name="title"
               onChange={this.onFieldChange}
-              width={10}
+              width={ 10 }
               label="Title"
               placeholder="Title"
               value={this.state.title}
             />
             <Form.Select
               name="category"
-              width={6}
+              width={ 6 }
               label="Category"
-              options={categories}
-              placeholder="Category"
+              options={ categories }
               value={this.state.category}
-              disabled={!!id}
+              onChange={ this.onFieldChange }
+              placeholder="Category"
+              disabled={ !!id }
             />
           </Form.Group>
           <Form.TextArea
             required
             name="body"
-            onChange={this.onFieldChange}
+            onChange={ this.onFieldChange }
             label="Body"
             placeholder="Tell us something interesting..."
-            value={this.state.body}
+            value={ this.state.body }
           />
           <Form.Group>
             <Button
@@ -93,7 +94,7 @@ class NewPost extends Component {
               content="Submit"
             />
             <Button
-              onClick={this.togglePreview.bind(this)}
+              onClick={ this.togglePreview.bind(this) }
               content="Toggle Preview"
             />
           </Form.Group>
@@ -120,8 +121,8 @@ class NewPost extends Component {
 }
 
 
-const mapStateToProps = ({ categories, post }) => ({
-  submittedId: post.submittedId,
+const mapStateToProps = ({ categories, posts }) => ({
+  submittedId: posts.submittedId,
   categories: categories.categories.map((i, k) => ({
     text: i.name,
     value: i.name,

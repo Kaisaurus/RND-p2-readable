@@ -29,10 +29,12 @@ class PostContainer extends Component {
   }
 
   render() {
-    const { fetching } = this.props;
-    return fetching
+    const { fetching, post } = this.props;
+    // checking for empty post object
+    return fetching || Object.keys(post).length < 1
       ? <Loader> Loading Post... </Loader>
       : this.generatePostContent();
+
   }
 }
 

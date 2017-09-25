@@ -17,16 +17,13 @@ class App extends Component {
         <Container text textAlign="left">
           <Route exact path="/" component={ PostsContainer } />
           <Route exact path={"/post/:id"} render={
-              (props) => {
-                return (
-                <PostContainer {...props} comments admin />
-              )}
-            } />
-            <Route path={"/post/:id/edit"} render={
-              (props) => (
-                <PostContainer {...props} edit />
-              )
-            } />
+              (props) => <PostContainer {...props} comments admin />
+            }
+          />
+          <Route path={"/post/:id/edit"} render={
+              (props) => <PostContainer {...props} edit />
+            }
+          />
           <Route path="/new" component={ PostForm } />
         </Container>
         <AlertContainer />
