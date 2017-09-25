@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchPost } from '../actions/postActions';
 import Post from '../components/Post';
 import PostForm from '../components/PostForm';
-import { Dimmer, Loader } from 'semantic-ui-react';
+import { Loader } from 'semantic-ui-react';
 
 class PostContainer extends Component {
   static propTypes = {
@@ -12,36 +12,33 @@ class PostContainer extends Component {
     fetching: PropTypes.bool,
     fetchPost: PropTypes.func.isRequired,
     edit: PropTypes.bool,
+    comments: PropTypes.bool,
+    admin: PropTypes.bool,
   }
 
   componentWillMount() {
     this.props.fetchPost(this.props.match.params.id);
   }
 
+  generatePostContent() {
+    const { post, edit, comments, admin } = this.props;
+    if(edit) {
+      return <PostForm { ...post } />;
+    }
+    return <Post admin={ admin } comments={ comments } { ...post } />;
+  }
+
   render() {
-    const { post, fetching, edit } = this.props;
-    const postTag = edit
-    ? (<PostForm { ...post } />)
-    : (<Post admin { ...post } />);
-    const content = fetching
-    ? ''
-    : postTag;
-    return (
-    <Dimmer.Dimmable>
-      <Dimmer active={ fetching }>
-        <Loader>
-          Loading Post...
-        </Loader>
-      </Dimmer>
-      { content }
-    </Dimmer.Dimmable>
-    );
+    const { fetching } = this.props;
+    return fetching
+      ? <Loader> Loading Post... </Loader>
+      : this.generatePostContent();
   }
 }
 
-const mapStateToProps = ({ post }) => ({
-  post: post.post,
-  fetching: post.fetching,
+const mapStateToProps = ({ posts }) => ({
+  post: posts.post,
+  fetching: posts.fetching,
 });
 
 export default connect(

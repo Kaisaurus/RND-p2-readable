@@ -8,4 +8,5 @@ if (!token) {
 export const headers = {
   Accept: 'application/json',
   Authorization: token,
+  'Content-Type': 'application/json',
 };

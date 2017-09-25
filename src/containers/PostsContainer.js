@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchPosts } from '../actions/postActions';
-import PostsList from '../components/PostsList';
-import { Dimmer, Loader } from 'semantic-ui-react';
+import Post from '../components/Post';
+import { Loader } from 'semantic-ui-react';
 
 class PostsContainer extends Component {
   static propTypes = {
@@ -16,18 +16,17 @@ class PostsContainer extends Component {
     this.props.fetchPosts();
   }
 
+  generatePosts(posts){
+    return posts
+      .filter(p => !p.deleted)
+      .map(p => <Post key={p.id} admin {...p} />);
+  }
+
   render() {
     const { posts, fetching } = this.props;
-    return (
-        <Dimmer.Dimmable>
-          <Dimmer active={ fetching }>
-            <Loader>
-              Loading Posts...
-            </Loader>
-          </Dimmer>
-          <PostsList posts={ posts } />
-        </Dimmer.Dimmable>
-    );
+    return fetching
+      ? <Loader> Loading Posts... </Loader>
+      : <div>{ this.generatePosts(posts) }</div>
   }
 }
 

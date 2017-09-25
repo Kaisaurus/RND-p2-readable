@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { vote } from '../actions/postActions';
 import { Redirect } from 'react-router';
+import CommentsContainer from '../containers/CommentsContainer';
+import { formatTimeStamp } from '../utils/formatTimeStamp';
 
 class Post extends Component {
   static propTypes = {
@@ -19,6 +21,7 @@ class Post extends Component {
     voteScore: PropTypes.number,
     admin: PropTypes.bool,
     vote: PropTypes.func,
+    comments: PropTypes.bool
   };
 
   onVoteUp(e, r) {
@@ -32,13 +35,16 @@ class Post extends Component {
   }
 
   render() {
-    const { error, author, body, category, timestamp, title, voteScore, admin, id } = this.props;
+    const { comments, error, author, body, category, timestamp, title, voteScore, admin, id } = this.props;
     if(error){
       return <Redirect to='/' />;
     }
-    const date = new Date(timestamp).toISOString();
-    const formattedDate = date.split('T')[0];
-    const formattedTime = date.split('T')[1].split('.')[0];
+    const formattedTimeStamp = formatTimeStamp(timestamp);
+    const commentsTag = comments
+      ? <Card.Content>
+          <CommentsContainer postId={ id }  />
+        </Card.Content>
+      : '' ;
     return (
       <Card fluid className="post">
         <Card.Content>
@@ -61,14 +67,14 @@ class Post extends Component {
                 : null
               }
               {
-                voteScore
+                comments
                 ? (
                   <Button.Group>
                       <Button
                         onClick={ this.onVoteUp.bind(this) }
                         icon="like outline"
                       />
-                    <Button.Or text={voteScore} />
+                    <Button.Or text={ voteScore } />
                       <Button
                         onClick={ this.onVoteDown.bind(this) }
                         icon="dislike outline"
@@ -80,7 +86,7 @@ class Post extends Component {
             </Button.Group>
           </Card.Header>
           <Card.Meta>
-            By { author } on { formattedDate } at { formattedTime }
+            By { author } on { formattedTimeStamp.date } at { formattedTimeStamp.time }
           </Card.Meta>
           <Card.Description>
             { body }
@@ -89,14 +95,14 @@ class Post extends Component {
             <CategoriesBtns categories={[category]} />
           </Card.Content>
         </Card.Content>
+        { commentsTag }
       </Card>
     );
   }
 }
 
-const mapStateToProps = ({ post }) => ({
-  voteCast: post.voteCast,
-  error: post.error,
+const mapStateToProps = ({ posts }) => ({
+  error: posts.error,
 });
 
 export default connect(

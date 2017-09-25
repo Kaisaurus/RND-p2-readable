@@ -1,45 +1,35 @@
-const comment = (state, action) => {
+import {
+  FETCH_COMMENTS_FULFILLED,
+  FETCH_COMMENTS_FAILED,
+  FETCHING_COMMENTS
+} from '../actions/commentActions';
+
+const defaultState = {
+  fetching: true,
+  comments: [],
+};
+
+const comments = (state = defaultState, action) => {
   switch (action.type) {
-    case 'ADD_COMMENT':
+    case FETCHING_COMMENTS:
       return {
-        id: action.id,
-        parentId: action.parentId,
-        timestamp: action.timestamp,
-        body: action.body,
-        author: action.author,
-        category: action.category,
-        voteScore: action.voteScore,
-        deleted: false,
-        parentDeleted: false,
-      };
-    // case 'REMOVE_POST':
-    //   if (state.id !== action.id) {
-    //     return state
-    //   }
-
-    //   return {
-    //     ...state,
-    //     removed: !state.deleted
-    //   }
-    default:
-      return state;
-  }
-};
-
-const comments = (state = [], action) => {
-  switch (action.type) {
-    case 'ADD_COMMENT':
-      return [
         ...state,
-        comment(undefined, action),
-      ];
-    // case 'TOGGLE_TODO':
-    //   return state.map(t =>
-    //     todo(t, action)
-    //   )
+        fetching: true,
+      }
+    case FETCH_COMMENTS_FULFILLED:
+      return {
+        ...state,
+        fetching: false,
+        comments: action.payload,
+      };
+    case FETCH_COMMENTS_FAILED:
+      return {
+        ...state,
+        error: action.payload,
+      };
     default:
       return state;
   }
-};
+}
 
 export default comments;

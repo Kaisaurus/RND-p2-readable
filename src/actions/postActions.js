@@ -1,8 +1,8 @@
 import axios from 'axios';
 import uuidv4 from 'uuid/v4';
-
 import { api, headers } from '../api-config';
 
+export const FETCHING_POST = 'FETCHING_POST';
 export const FETCH_POST_FULFILLED = 'FETCH_POST_FULFILLED';
 export const FETCH_POST_FAILED = 'FETCH_POST_FAILED';
 export const FETCH_POSTS_FULFILLED = 'FETCH_POSTS_FULFILLED';
@@ -18,6 +18,8 @@ export function newPost(post) {
   return dispatch => {
     getUniqueId().then(id => {
       // post new post with unique id
+      // I would prefer to do this on the back end
+      // but for this assignment I'm not supposed to touch the back-end
       axios
         .post(
           `${api}/posts`,
@@ -73,6 +75,7 @@ export function editPost(id, post) {
 
 export function fetchPosts() {
   return dispatch => {
+    dispatch({ type: FETCHING_POST });
     axios.get(`${api}/posts`, { headers })
       .then(resp => {
         dispatch({ type: FETCH_POSTS_FULFILLED, payload: resp.data });
@@ -85,6 +88,7 @@ export function fetchPosts() {
 
 export function fetchPost(id) {
   return dispatch => {
+    dispatch({ type: FETCHING_POST });
     axios.get(`${api}/posts/${id}`, { headers })
       .then(resp => {
         dispatch({ type: FETCH_POST_FULFILLED, payload: resp.data });
@@ -97,11 +101,9 @@ export function fetchPost(id) {
 
 export function vote(id, vote) {
   return dispatch => {
-    axios.post(`${api}/posts/${id}`, { vote } , { headers })
+    axios.post(`${api}/posts/${id}`, { option: vote } , { headers })
       .then(resp => {
-        console.log(resp.data.id);
-        console.log(resp.data.voteScore);
-        dispatch({ type: VOTE_POST_FULFILLED, payload: resp.data });
+        dispatch({ type: VOTE_POST_FULFILLED, payload: { data: resp.data, id: id } });
       })
       .catch(err => {
         dispatch({ type: VOTE_POST_FAILED, payload: err });
