@@ -8,6 +8,7 @@ import { vote, deletePost } from '../actions/postActions';
 import { Redirect } from 'react-router';
 import CommentsContainer from '../containers/CommentsContainer';
 import { formatTimeStamp } from '../utils/formatTimeStamp';
+import VoteBtns from './VoteBtns';
 
 class Post extends Component {
   static propTypes = {
@@ -57,19 +58,11 @@ class Post extends Component {
   generateVoteBtns() {
     const { voteScore, preview } = this.props;
     return !preview
-    ? (
-      <Button.Group>
-        <Button
-          onClick={ this.onVoteUp.bind(this) }
-          icon="like outline"
-        />
-        <Button.Or text={ voteScore } />
-          <Button
-            onClick={ this.onVoteDown.bind(this) }
-            icon="dislike outline"
-          />
-      </Button.Group>
-      )
+    ? <VoteBtns
+        voteScore={ voteScore }
+        onVoteUp={ this.onVoteUp.bind(this) }
+        onVoteDown={ this.onVoteDown.bind(this) }
+      />
     : null;
   }
 

@@ -8,6 +8,8 @@ import {
   NEW_COMMENT_FAILED,
   DELETE_COMMENT_FULFILLED,
   DELETE_COMMENT_FAILED,
+  VOTE_COMMENT_FULFILLED,
+  VOTE_COMMENT_FAILED,
 } from '../actions/commentActions';
 
 const defaultState = {
@@ -58,6 +60,18 @@ const comments = (state = defaultState, action) => {
         ...state,
         comments: commentsAfterDelete,
       };
+    case VOTE_COMMENT_FULFILLED:
+      const commentsAfterVote = state.comments.map(comment => {
+        if(comment.id === action.payload.id) {
+          return { ...comment, voteScore: action.payload.data.voteScore };
+        }
+        return comment;
+      });
+      return {
+        ...state,
+        comments: commentsAfterVote,
+      }
+    case VOTE_COMMENT_FAILED:
     case FETCH_COMMENTS_FAILED:
     case EDIT_COMMENT_FAILED:
     case NEW_COMMENT_FAILED:

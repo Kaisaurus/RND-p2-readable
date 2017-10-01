@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import avatarImg from '../img/ee.jpg';
 import { connect } from 'react-redux';
 import { formatTimeStamp } from '../utils/formatTimeStamp';
-import { deleteComment, editComment } from '../actions/commentActions';
+import { deleteComment, editComment, vote } from '../actions/commentActions';
+import VoteBtns from './VoteBtns';
 
 class MyComment extends Component {
   static propTypes = {
@@ -12,6 +13,7 @@ class MyComment extends Component {
     timestamp: PropTypes.number,
     body: PropTypes.string,
     author: PropTypes.string,
+    voteScore: PropTypes.number,
     parentId: PropTypes.string,
     currentUserName: PropTypes.string,
   }
@@ -32,6 +34,16 @@ class MyComment extends Component {
 
   onEditComment() {
     this.setState({ edit: true, body: this.props.body });
+  }
+
+  onVoteUp(e, r) {
+    e.preventDefault();
+    this.props.vote(this.props.id, 'upVote');
+  }
+
+  onVoteDown(e, r) {
+    e.preventDefault();
+    this.props.vote(this.props.id, 'downVote');
   }
 
   onSubmit = (e, r) => {
@@ -89,7 +101,7 @@ class MyComment extends Component {
   }
 
   render() {
-    const { timestamp, author } = this.props;
+    const { timestamp, author, voteScore } = this.props;
     const formatedTimeStamp = formatTimeStamp(timestamp);
     return (
       <Comment>
@@ -100,7 +112,14 @@ class MyComment extends Component {
             <div>Commented on { formatedTimeStamp.date } at { formatedTimeStamp.time }</div>
           </Comment.Metadata>
         </Comment.Content>
-          { this.generateBody() }
+        { this.generateBody() }
+        <Comment.Content>
+          <VoteBtns
+            voteScore={ voteScore }
+            onVoteUp={ this.onVoteUp.bind(this) }
+            onVoteDown={ this.onVoteDown.bind(this) }
+          />
+          </Comment.Content>
       </Comment>
     )
   }
@@ -112,5 +131,5 @@ const mapStateToProps = ({ users }) => ({
 
 export default connect(
   mapStateToProps,
-  { deleteComment, editComment }
+  { deleteComment, editComment, vote }
 )(MyComment);

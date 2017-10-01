@@ -11,7 +11,8 @@ export const NEW_COMMENT_FULFILLED = 'NEW_COMMENT_FULFILLED';
 export const NEW_COMMENT_FAILED = 'NEW_COMMENT_FAILED';
 export const DELETE_COMMENT_FULFILLED = 'DELETE_COMMENT_FULFILLED';
 export const DELETE_COMMENT_FAILED = 'DELETE_COMMENT_FAILED';
-
+export const VOTE_COMMENT_FULFILLED = 'VOTE_COMMENT_FULFILLED';
+export const VOTE_COMMENT_FAILED = 'VOTE_COMMENT_FAILED';
 
 export function fetchComments(postId) {
   return (dispatch) => {
@@ -92,6 +93,18 @@ export function deleteComment(id) {
       })
       .catch(err => {
         dispatch({ type: DELETE_COMMENT_FAILED, payload: err });
+      });
+  };
+}
+
+export function vote(id, vote) {
+  return dispatch => {
+    axios.post(`${api}/comments/${id}`, { option: vote } , { headers })
+      .then(resp => {
+        dispatch({ type: VOTE_COMMENT_FULFILLED, payload: { data: resp.data, id: id } });
+      })
+      .catch(err => {
+        dispatch({ type: VOTE_COMMENT_FAILED, payload: err });
       });
   };
 }
