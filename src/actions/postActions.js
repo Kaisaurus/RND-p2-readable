@@ -20,7 +20,7 @@ export function newPost(post) {
   return dispatch => {
     getUniqueId().then(id => {
       // post new post with unique id
-      // I would prefer to do this on the back end
+      // I would prefer to do this on the back end rather than catching a error request
       // but for this assignment I'm not supposed to touch the back-end
       axios
         .post(
@@ -59,7 +59,6 @@ const checkUniqueId = id => {
 
 export function editPost(id, post) {
   return dispatch => {
-    // post new post with unique id
     axios
       .put(
         `${api}/posts/${id}`,
@@ -75,17 +74,19 @@ export function editPost(id, post) {
   }
 }
 
-export function fetchPosts() {
+export function fetchPosts(category = null) {
   return dispatch => {
     dispatch({ type: FETCHING_POST });
-    axios.get(`${api}/posts`, { headers })
+    const url = category ? `/${category}/posts` : `/posts`;
+    axios
+      .get(`${api}${url}`, { headers })
       .then(resp => {
         dispatch({ type: FETCH_POSTS_FULFILLED, payload: resp.data });
       })
       .catch(err => {
         dispatch({ type: FETCH_POSTS_FAILED, payload: err });
       });
-  };
+  }
 }
 
 export function fetchPost(id) {

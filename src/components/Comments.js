@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Comment, Header } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import MyComment from '../components/MyComment';
+import CommentForm from '../components/CommentForm';
 
 class Comments extends Component {
   static propTypes = {
@@ -26,6 +27,7 @@ class Comments extends Component {
     <Comment.Group>
       <Header as='h3' dividing>Comments</Header>
       { this.generateComments(comments) }
+      <CommentForm />
     </Comment.Group>
     )
   }

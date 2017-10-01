@@ -16,15 +16,27 @@ class App extends Component {
         <Navigation />
         <Container text textAlign="left">
           <Route exact path="/" component={ PostsContainer } />
-          <Route exact path={"/post/:id"} render={
-              (props) => <PostContainer {...props} comments admin />
+          <Route exact path="/new" component={ PostForm } />
+          <Route exact path={"/:category"} render={
+              (props) => <PostsContainer category={props.match.params.category} {...props} />
             }
           />
-          <Route path={"/post/:id/edit"} render={
-              (props) => <PostContainer {...props} edit />
+          <Route exact path={"/:category/:id"} render={
+              (props) => <PostContainer
+                id={props.match.params.id}
+                category={props.match.params.category}
+                comments
+              />
             }
           />
-          <Route path="/new" component={ PostForm } />
+          <Route exact path={"/:category/:id/edit"} render={
+              (props) => <PostContainer
+                id={props.match.params.id}
+                category={props.match.params.category}
+                edit
+              />
+            }
+          />
         </Container>
         <AlertContainer />
       </div>

@@ -24,10 +24,7 @@ const defaultState = {
 const posts = (state = defaultState, action) => {
   switch (action.type) {
     case FETCHING_POST:
-      return {
-        ...state,
-        fetching: true,
-      }
+      return defaultState;
     case FETCH_POST_FULFILLED:
       return {
         ...state,

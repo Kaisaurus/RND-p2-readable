@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
-const colors = ['red', 'orange', 'yellow', 'olive', 'green', 'teal', 'blue', 'purple'];
-const color = () => colors[Math.floor(Math.random() * (colors.length - 1))];
-
-const CategoriesBtns = ({ categories }) => {
+export const CategoriesBtns = ({ categories }) => {
   return categories && categories[0] !== '' ? (
     <div>
       {categories.map((category, i) =>
         (
-          <Button size="small" compact key={i} color={color()}>
-            {category}
-          </Button>
+          <Link to={`/${category}`} key={i}>
+            <Button size="small" compact secondary>
+              {category}
+            </Button>
+          </Link>
         )
       )}
     </div>
@@ -23,5 +23,3 @@ const CategoriesBtns = ({ categories }) => {
 CategoriesBtns.propTypes = {
   categories: PropTypes.array.isRequired,
 };
-
-export default CategoriesBtns;

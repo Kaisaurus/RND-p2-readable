@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CategoriesContainer from '../containers/CategoriesContainer';
-import { Dropdown, Container, Icon, Menu } from 'semantic-ui-react';
+import { Dropdown, Container, Menu } from 'semantic-ui-react';
 
 
 const Navigation = () => (
@@ -12,20 +12,17 @@ const Navigation = () => (
     boxShadow: 'none',
     transition: 'box-shadow 0.5s ease, padding 0.5s ease',
   }}
->
+  >
     <Container text>
       <Link to="/">
-        <Menu.Item>
-          <Icon name="idea" size="large" />
-        </Menu.Item>
-        <Menu.Item header>React ND P2</Menu.Item>
+        <Menu.Item header>React/Redux Demo</Menu.Item>
       </Link>
       <Link to="/new">
         <Menu.Item>
           New Post
         </Menu.Item>
       </Link>
-      <Menu.Menu position="right">
+      <Menu.Menu>
         <Dropdown text="Categories" pointing className="link item">
           <Dropdown.Menu>
             <CategoriesContainer />

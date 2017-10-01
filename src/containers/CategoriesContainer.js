@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchCategories } from '../actions/categoryActions';
-import CategoriesBtns from '../components/CategoriesBtns';
+import { CategoriesBtns } from '../components/CategoriesBtns';
 
 class CategoriesContainer extends Component {
   static propTypes = {

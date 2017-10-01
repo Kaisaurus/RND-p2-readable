@@ -6,7 +6,7 @@ import { newPost, editPost } from '../actions/postActions';
 import Post from './Post';
 import { Redirect } from 'react-router';
 
-class NewPost extends Component {
+class PostForm extends Component {
   static PropTypes = {
     categories: PropTypes.string,
     id: PropTypes.string,
@@ -34,47 +34,45 @@ class NewPost extends Component {
   onSubmit = (e, r) => {
     e.preventDefault();
     const { title, body, category } = this.state;
-    const { id } = this.props;
+    const { id, currentUserName } = this.props;
     const post = id
-    ? { title, body }
-    :{
-      timestamp: Date.now(),
-      title,
-      body,
-      author: 'You',
-      category,
-      owner: 'you',
-      deleted: false,
-    };
+      ? { title, body }
+      : {
+        timestamp: Date.now(),
+        title,
+        body,
+        author: currentUserName,
+        category,
+      };
     id
-    ?this.props.editPost(id, post)
-    :this.props.newPost(post);
+      ? this.props.editPost(id, post)
+      : this.props.newPost(post);
   }
 
   render() {
-    const { categories, submittedId, id } = this.props;
+    const { currentUserName, categories, submittedId, id } = this.props;
     if(submittedId){
-      return <Redirect to={`/post/${submittedId}`} />;
+      return <Redirect to={ `/post/${submittedId}` } />;
     }
     return (
       <div>
-        <Form onSubmit={this.onSubmit}>
+        <Form onSubmit={ this.onSubmit }>
           <Form.Group>
             <Form.Input
               required
               name="title"
-              onChange={this.onFieldChange}
+              onChange={ this.onFieldChange }
               width={ 10 }
               label="Title"
               placeholder="Title"
-              value={this.state.title}
+              value={ this.state.title }
             />
             <Form.Select
               name="category"
               width={ 6 }
               label="Category"
               options={ categories }
-              value={this.state.category}
+              value={ this.state.category }
               onChange={ this.onFieldChange }
               placeholder="Category"
               disabled={ !!id }
@@ -105,12 +103,12 @@ class NewPost extends Component {
           this.state.showPreview
           ? (
             <Post
-              author="You"
-              body={this.state.body}
-              category={this.state.category}
-              timestamp={Date.now()}
-              title={this.state.title}
-              admin={false}
+              author={ currentUserName }
+              body={ this.state.body }
+              category={ this.state.category }
+              timestamp={ Date.now() }
+              title={ this.state.title }
+              preview
             />
           )
           : null
@@ -121,16 +119,17 @@ class NewPost extends Component {
 }
 
 
-const mapStateToProps = ({ categories, posts }) => ({
+const mapStateToProps = ({ categories, posts, users }) => ({
   submittedId: posts.submittedId,
   categories: categories.categories.map((i, k) => ({
     text: i.name,
     value: i.name,
     key: k,
   })),
+  currentUserName: users.currentUserName,
 });
 
 export default connect(
   mapStateToProps,
   { newPost, editPost }
-)(NewPost);
+)(PostForm);

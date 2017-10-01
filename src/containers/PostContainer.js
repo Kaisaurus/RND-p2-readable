@@ -14,18 +14,22 @@ class PostContainer extends Component {
     edit: PropTypes.bool,
     comments: PropTypes.bool,
     admin: PropTypes.bool,
+    category: PropTypes.string,
   }
 
   componentWillMount() {
-    this.props.fetchPost(this.props.match.params.id);
+    this.props.fetchPost(this.props.id);
   }
 
   generatePostContent() {
-    const { post, edit, comments, admin } = this.props;
+    const { post, edit, comments, admin, category } = this.props;
     if(edit) {
       return <PostForm { ...post } />;
     }
-    return <Post admin={ admin } comments={ comments } { ...post } />;
+    if(category === post.category) {
+      return <Post admin={ admin } comments={ comments } { ...post } />;
+    }
+    return <div>Sorry could't find that post!</div>
   }
 
   render() {
@@ -34,7 +38,6 @@ class PostContainer extends Component {
     return fetching || Object.keys(post).length < 1
       ? <Loader> Loading Post... </Loader>
       : this.generatePostContent();
-
   }
 }
 
