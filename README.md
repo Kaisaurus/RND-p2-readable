@@ -3,7 +3,7 @@
 ### Functionalities
 This project demonstrates the use of React/Redux as the front-end of a messaging board system.
 
-It currently allows any user to create/read/update/delete and vote on posts.
+It currently allows a fixed test user to create/update/delete its own posts/comments and read/vote for any posts/comments.
 
 It uses a [premade API back-end provided by Udacity](https://github.com/udacity/reactnd-project-readable-starter)
 
